@@ -7,8 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SaharaWeb.DataAccess;
-using SaharaWeb.DataSource.Models;
-using SaharaWeb.DataSource.Tables;
+using SaharaWeb.DataSource.Contexts;
 using SaharaWeb.Services;
 
 namespace SaharaWeb
@@ -26,8 +25,7 @@ namespace SaharaWeb
         public void ConfigureServices(IServiceCollection services)
         {
             //Normally you would have this set to detect if you're in a Development vs Testing environment. Currently hardcoding this for ease of use
-            services.AddDbContext<SaharaDbContext>(options =>
-                options.UseInMemoryDatabase(databaseName: "Test"));
+            services.AddDbContext<SaharaDbContext>(options => options.UseInMemoryDatabase("Test"));
 
             services.AddScoped<ISaharaAccess, SaharaAccess>();
             services.AddScoped<ISaharaService, SaharaService>();

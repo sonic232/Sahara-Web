@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace SaharaWeb.Controllers.ProductViewModels
 {
-    public class ProductListView : View
+    public class ProductListView
     {
         public IEnumerable<ProductItem> Products { get; }
-        public ProductListView(IEnumerable<Product> products, IEnumerable<Category> categories) : base(categories)
+        public ProductListView(IEnumerable<Product> products)
         {
             Products = CreateProductList(products);
         }

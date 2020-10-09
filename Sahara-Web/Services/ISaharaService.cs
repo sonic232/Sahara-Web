@@ -8,8 +8,9 @@ namespace SaharaWeb.Services
 {
     public interface ISaharaService
     {
-        CategoryView GetCategoryView(int categoryId);
-        ProductView GetProductView(int productId);
-        ProductListView ShowAllProducts();
+        Task<CategoryView> GetCategoryView(int categoryId);
+        Task<ProductView> GetProductView(int productId);
+        Task<ProductListView> ShowAllProducts();
+        Task<IEnumerable<CategoryItem>> GetCategoryList();
     }
 }

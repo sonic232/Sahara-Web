@@ -7,7 +7,7 @@ namespace SaharaWeb.Controllers.ProductViewModels
     {
         public string CategoryName { get; }
         public string CategoryDescription { get; }
-        public CategoryView (Category categoryData, IEnumerable<Category> categories) : base(categoryData.Products, categories)
+        public CategoryView (Category categoryData) : base(categoryData.Products)
         {
             CategoryName = categoryData.Name;
             CategoryDescription = categoryData.Description;

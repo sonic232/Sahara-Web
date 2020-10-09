@@ -10,23 +10,23 @@ namespace SaharaWeb.DataSource.Models
         /// Unique identifier
         /// </summary>
         [Key]
-        public int Id;
+        public int Id { get; set; }
         /// <summary>
         /// Name for Product
         /// </summary>
         [MaxLength(200)]
         [Required]
-        public string Name;
+        public string Name { get; set; }
         /// <summary>
         /// Price of Product. Note this would normally also come with something like what currency it is under. It is kept as Price for simplicity
         /// </summary>
         [Required]
-        public decimal Price;
+        public decimal Price { get; set; }
         /// <summary>
         /// Additional details about product
         /// </summary>
         [MaxLength(5000)]
-        public string Description;
+        public string Description { get; set; }
         /// <summary>
         /// Date the record was created
         /// </summary>
@@ -41,12 +41,11 @@ namespace SaharaWeb.DataSource.Models
         /// <summary>
         /// Foreign Key for Category
         /// </summary>
-        [Required]
-        public int CategoryId;
+        [ForeignKey(nameof(Category))]
+        public int CategoryId { get; set; }
         /// <summary>
         /// The Category this product belongs to
         /// </summary>
-        [ForeignKey("CategoryId")]
-        public Category Category;
+        public Category Category { get; set; }
     }
 }

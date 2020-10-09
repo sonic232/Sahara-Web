@@ -6,7 +6,7 @@ using SaharaWeb.DataSource.Models;
 
 namespace SaharaWeb.Controllers.ProductViewModels
 {
-    public class ProductView : View
+    public class ProductView
     {
         public int ProductId { get; }
         public int CategoryId { get; }
@@ -15,7 +15,7 @@ namespace SaharaWeb.Controllers.ProductViewModels
         public string Description { get; }
         public decimal Price { get; }
 
-        public ProductView(Product productData, IEnumerable<Category> categories) : base (categories)
+        public ProductView(Product productData)
         {
             ProductId = productData.Id;
             CategoryId = productData.CategoryId;

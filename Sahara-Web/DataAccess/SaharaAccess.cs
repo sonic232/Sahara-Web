@@ -1,8 +1,9 @@
 ﻿using SaharaWeb.DataSource.Models;
-using SaharaWeb.DataSource.Tables;
+using SaharaWeb.DataSource.Contexts;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace SaharaWeb.DataAccess
 {
@@ -19,9 +20,9 @@ namespace SaharaWeb.DataAccess
         /// Get all products
         /// </summary>
         /// <returns>A generic enumerable of all products within the database. In a larger system, this would have paging information to only get a subset of data</returns>
-        public IEnumerable<Product> GetAllProducts()
+        public async Task<IEnumerable<Product>> GetAllProducts()
         {
-            return SaharaDb.Products;
+            return await SaharaDb.Products.Include(p => p.Category).ToListAsync();
         }
 
         /// <summary>
@@ -29,9 +30,9 @@ namespace SaharaWeb.DataAccess
         /// </summary>
         /// <param name="categoryId">The ID of the category to get the products of</param>
         /// <returns>A generic enumerable of all products listed under a specific category. In a larger system, this would have paging information to only get a subset of data.</returns>
-        public IEnumerable<Product> GetProductsByCategory(int categoryId)
+        public async Task<IEnumerable<Product>> GetProductsByCategory(int categoryId)
         {
-            return SaharaDb.Products.Where(p => p.CategoryId == categoryId);
+            return await SaharaDb.Products.Where(p => p.CategoryId == categoryId).Include(p => p.Category).ToListAsync();
         }
 
         /// <summary>
@@ -39,27 +40,27 @@ namespace SaharaWeb.DataAccess
         /// </summary>
         /// <param name="productId">The ID of the product.</param>
         /// <returns>The product whose ID matches what was provided, or a null object indicating the provided object was not found.</returns>
-        public Product GetProduct(int productId)
+        public async Task<Product> GetProduct(int productId)
         {
-            return SaharaDb.Products.SingleOrDefault(p => p.Id == productId);
+            return await SaharaDb.Products.Include(p => p.Category).SingleOrDefaultAsync(p => p.Id == productId);
         }
 
         /// <summary>
         /// Get a list of all categories in the system.
         /// </summary>
         /// <returns>A generic enumerable list </returns>
-        public IEnumerable<Category> GetCategories()
+        public async Task<IEnumerable<Category>> GetCategories()
         {
-            return SaharaDb.Categories;
+            return await SaharaDb.Categories.ToListAsync();
         }
         /// <summary>
         /// Get a single category and all of its included products based on its ID
         /// </summary>
         /// <param name="categoryId"></param>
         /// <returns>A single category with all its included products</returns>
-        public Category GetCategory(int categoryId)
+        public async Task<Category> GetCategory(int categoryId)
         {
-            return SaharaDb.Categories.Include(c => c.Products).SingleOrDefault(c => c.Id == categoryId);
+            return await SaharaDb.Categories.Include(c => c.Products).SingleOrDefaultAsync(c => c.Id == categoryId);
         }
     }
 }

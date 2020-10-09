@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SaharaWeb.Controllers.ProductViewModels;
 using SaharaWeb.Services;
@@ -20,21 +16,27 @@ namespace SaharaWeb.Controllers
         }
 
         [HttpGet("[action]")]
-        public ProductListView GetProductListView()
+        public async Task<IActionResult> GetProductListView()
         {
-            return SaharaService.ShowAllProducts();
+            return Ok(await SaharaService.ShowAllProducts());
         }
 
         [HttpGet("[action]")]
-        public CategoryView GetCategoryView(int categoryId)
+        public async Task<IActionResult> GetCategoryView(int id)
         {
-            return SaharaService.GetCategoryView(categoryId);
+            return Ok(await SaharaService.GetCategoryView(id));
         }
 
         [HttpGet("[action]")]
-        public ProductView GetProductView(int productId)
+        public async Task<IActionResult> GetProductView(int id)
         {
-            return SaharaService.GetProductView(productId);
+            return Ok(await SaharaService.GetProductView(id));
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetCategoryList()
+        {
+            return Ok(await SaharaService.GetCategoryList());
         }
     }
 }

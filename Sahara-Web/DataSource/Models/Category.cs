@@ -14,19 +14,18 @@ namespace SaharaWeb.DataSource.Models
         /// Unique identifier
         /// </summary>
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public readonly int Id;
+        public int Id { get; set; }
         /// <summary>
         /// The name of the category
         /// </summary>
         [MaxLength(200)]
         [Required]
-        public string Name;
+        public string Name { get; set; }
         /// <summary>
         /// Describe what constitutes items in this category
         /// </summary>
         [MaxLength(5000)]
-        public string Description;
+        public string Description { get; set; }
         /// <summary>
         /// Date the record was created
         /// </summary>

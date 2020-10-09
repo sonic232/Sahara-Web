@@ -20,37 +20,41 @@ namespace SaharaWeb.Services
         /// </summary>
         /// <param name="categoryId"></param>
         /// <returns>The needed information</returns>
-        public CategoryView GetCategoryView(int categoryId)
+        public async Task<CategoryView> GetCategoryView(int categoryId)
         {
             CategoryView view;
-            Category category = SaharaAccess.GetCategory(categoryId);
-            IEnumerable<Category> categories = SaharaAccess.GetCategories();
+            Category category = await SaharaAccess.GetCategory(categoryId);
 
-            view = new CategoryView(category, categories);
+            view = new CategoryView(category);
 
             return view;
         }
 
-        public ProductView GetProductView(int productId)
+        public async Task<ProductView> GetProductView(int productId)
         {
             ProductView view;
-            Product product = SaharaAccess.GetProduct(productId);
-            IEnumerable<Category> categories = SaharaAccess.GetCategories();
+            Product product = await SaharaAccess.GetProduct(productId);
 
-            view = new ProductView(product, categories);
+            view = new ProductView(product);
 
             return view;
         }
 
-        public ProductListView ShowAllProducts()
+        public async Task<ProductListView> ShowAllProducts()
         {
             ProductListView view;
-            IEnumerable<Product> products = SaharaAccess.GetAllProducts();
-            IEnumerable<Category> categories = SaharaAccess.GetCategories();
+            IEnumerable<Product> products = await SaharaAccess.GetAllProducts();
 
-            view = new ProductListView(products, categories);
+            view = new ProductListView(products);
 
             return view;
+        }
+
+        public async Task<IEnumerable<CategoryItem>> GetCategoryList()
+        {
+            IEnumerable<Category> categoryDataList = await SaharaAccess.GetCategories();
+            IEnumerable<CategoryItem> categoryItemList = categoryDataList.Select(c => new CategoryItem(c));
+            return categoryItemList;
         }
     }
 }
