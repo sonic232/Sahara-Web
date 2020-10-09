@@ -3,22 +3,15 @@ const receiveCategoryListType = 'RECEIVE_CATEGORY_LIST';
 const initialState = { categories: [], isLoading: false };
 
 export const actionCreators = {
-    requestCategoryList: () => async (dispatch, getState) => {
-        if (startDateIndex === getState().weatherForecasts.startDateIndex) {
-            // Don't issue a duplicate request (we already have or are loading the requested data)
-            return;
-        }
-
+    requestCategoryList: () => async (dispatch) => {
         dispatch({ type: requestCategoryListType });
 
         const url = `api/Sahara/GetCategoryList`;
         const response = await fetch(url);
-        const categories = await response.json();
+        const json = await response.json();
 
-        dispatch({ type: receiveCategoryListType, categories });
-    },
-
-    setCategory: categoryId => ({ type: setChosenCategory, chosenCategoryId: categoryId })
+        dispatch({ type: receiveCategoryListType, json });
+    }
 };
 
 export const reducer = (state, action) => {
@@ -34,7 +27,7 @@ export const reducer = (state, action) => {
     if (action.type === receiveCategoryListType) {
         return {
             ...state,
-            categories: action.categories,
+            categories: action.json.categories,
             isLoading: false
         };
     }

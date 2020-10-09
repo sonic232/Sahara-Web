@@ -3,15 +3,15 @@ const receiveProductListType = 'RECEIVE_PRODUCT_LIST';
 const initialState = { products: [], isLoading: false };
 
 export const actionCreators = {
-    requestProductList: () => async (dispatch, getState) => {
+    requestProductList: () => async (dispatch) => {
         dispatch({ type: requestProductListType });
 
         const url = `api/Sahara/GetProductListView`;
         const response = await fetch(url);
-        const products = await response.json();
+        const json = await response.json();
 
-        dispatch({ type: receiveProductListType, products });
-    },
+        dispatch({ type: receiveProductListType, json });
+    }
 };
 
 export const reducer = (state, action) => {
@@ -27,7 +27,7 @@ export const reducer = (state, action) => {
     if (action.type === receiveProductListType) {
         return {
             ...state,
-            products: action.products,
+            products: action.json.products,
             isLoading: false
         };
     }

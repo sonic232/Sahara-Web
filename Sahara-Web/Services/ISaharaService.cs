@@ -11,6 +11,6 @@ namespace SaharaWeb.Services
         Task<CategoryView> GetCategoryView(int categoryId);
         Task<ProductView> GetProductView(int productId);
         Task<ProductListView> ShowAllProducts();
-        Task<IEnumerable<CategoryItem>> GetCategoryList();
+        Task<CategoryListView> GetCategoryList();
     }
 }

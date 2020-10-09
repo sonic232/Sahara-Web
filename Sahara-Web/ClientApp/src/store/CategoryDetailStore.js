@@ -1,7 +1,7 @@
 ﻿const requestCategoryDetailsType = 'REQUEST_CATEGORY_DETAILS';
 const receiveCategoryDetailsType = 'RECEIVE_CATEGORY_DETAILS';
 const setChosenCategory = 'SET_CATEGORY_ID';
-const initialState = { forecasts: [], isLoading: false };
+const initialState = { chosenCategoryId: 0, categoryName: '', categoryDescription: '', products: [], isLoading: false };
 
 export const actionCreators = {
     requestCategoryDetails: categoryId => async (dispatch, getState) => {
@@ -36,13 +36,12 @@ export const reducer = (state, action) => {
         const categoryDescription = action.category.categoryDescription;
         const products = action.category.products;
 
-        dispatch({ type: receiveProductListType, products });
-
         return {
             ...state,
             chosenCategoryId: action.categoryId,
             categoryName: categoryName,
             categoryDescription: categoryDescription,
+            products: products,
             isLoading: false
         };
     }

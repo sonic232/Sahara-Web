@@ -50,11 +50,14 @@ namespace SaharaWeb.Services
             return view;
         }
 
-        public async Task<IEnumerable<CategoryItem>> GetCategoryList()
+        public async Task<CategoryListView> GetCategoryList()
         {
-            IEnumerable<Category> categoryDataList = await SaharaAccess.GetCategories();
-            IEnumerable<CategoryItem> categoryItemList = categoryDataList.Select(c => new CategoryItem(c));
-            return categoryItemList;
+            CategoryListView view;
+            IEnumerable<Category> categories = await SaharaAccess.GetCategories();
+
+            view = new CategoryListView(categories);
+
+            return view;
         }
     }
 }
