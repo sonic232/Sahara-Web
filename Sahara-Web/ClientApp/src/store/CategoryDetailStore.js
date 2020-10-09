@@ -1,42 +1,57 @@
-﻿const requestWeatherForecastsType = 'REQUEST_CATEGORY_DETAILS';
-const receiveWeatherForecastsType = 'RECEIVE_CATEGORY_DETAILS';
+﻿const requestCategoryDetailsType = 'REQUEST_CATEGORY_DETAILS';
+const receiveCategoryDetailsType = 'RECEIVE_CATEGORY_DETAILS';
+const setChosenCategory = 'SET_CATEGORY_ID';
 const initialState = { forecasts: [], isLoading: false };
 
 export const actionCreators = {
-    requestWeatherForecasts: startDateIndex => async (dispatch, getState) => {
-        if (startDateIndex === getState().weatherForecasts.startDateIndex) {
+    requestCategoryDetails: categoryId => async (dispatch, getState) => {
+        if (categoryId === getState().CategoryDetails.chosenCategoryId) {
             // Don't issue a duplicate request (we already have or are loading the requested data)
             return;
         }
 
-        dispatch({ type: requestWeatherForecastsType, startDateIndex });
+        dispatch({ type: requestCategoryDetailsType, categoryId });
 
-        const url = `api/SampleData/WeatherForecasts?startDateIndex=${startDateIndex}`;
+        const url = `api/Sahara/GetCategoryView?Id=${categoryId}`;
         const response = await fetch(url);
-        const forecasts = await response.json();
+        const category = await response.json();
 
-        dispatch({ type: receiveWeatherForecastsType, startDateIndex, forecasts });
+        dispatch({ type: receiveCategoryDetailsType, categoryId, category });
     }
 };
 
 export const reducer = (state, action) => {
     state = state || initialState;
 
-    if (action.type === requestWeatherForecastsType) {
+    if (action.type === requestCategoryDetailsType) {
         return {
             ...state,
-            startDateIndex: action.startDateIndex,
+            chosenCategoryId: action.categoryId,
             isLoading: true
         };
     }
 
-    if (action.type === receiveWeatherForecastsType) {
+    if (action.type === receiveCategoryDetailsType) {
+        const categoryName = action.category.categoryName;
+        const categoryDescription = action.category.categoryDescription;
+        const products = action.category.products;
+
+        dispatch({ type: receiveProductListType, products });
+
         return {
             ...state,
-            startDateIndex: action.startDateIndex,
-            forecasts: action.forecasts,
+            chosenCategoryId: action.categoryId,
+            categoryName: categoryName,
+            categoryDescription: categoryDescription,
             isLoading: false
         };
+    }
+
+    if (action.type === setChosenCategory) {
+        return {
+            ...state,
+            categoryId: action.chosenCategoryId
+        }
     }
 
     return state;
